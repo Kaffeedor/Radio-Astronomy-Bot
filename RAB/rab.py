@@ -2,7 +2,7 @@ import discord
 from time import sleep
 import asyncio as asy
 from random import randint as rain
-from numpy import *
+from math import *
 
 
 class MyClient(discord.Client):
@@ -31,10 +31,10 @@ class MyClient(discord.Client):
             embedd.add_field(name="Hello", value="Secret", inline=False)
             await message.channel.send(embed=embedd)
 		
-		elif message.content.startswith("rab!calc"):
-			calculation_string = str(message.content)[8:]
-			calculation_output = eval(calculation_string)
-			await message.channel.send(calculation_output)
+	elif message.content.startswith("rab!calc"):
+		calculation_string = str(message.content)[8:]
+		calculation_output = eval(calculation_string)
+		await message.channel.send(calculation_output)
 
         
         else:
