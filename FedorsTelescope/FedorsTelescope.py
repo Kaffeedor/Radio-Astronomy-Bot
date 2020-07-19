@@ -53,13 +53,18 @@ class MyClient(discord.Client):
             except:
                 await message.channel.send("Couldn't find plot.png (or some other random error?!)")
             await client.change_presence(activity=discord.Game("ft!observe [sec] [nchan]"), status=discord.Status.online)
-            
-        
+
         else:
             pass
+        
+#        if message.content.startswith("ft!cancel"):
+#            system("pkill -f top_block.py")
+#
+#        else:
+#            pass
 
 
 
 
 client = MyClient()
-client.run("NzMxNzk1MDk4NjIyMjMwNTY5.XwtVpQ.Lks2GT_68xAHuCN5qIuMxCvnfmg")
+client.run("TOKEN")
