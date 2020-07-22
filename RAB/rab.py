@@ -59,7 +59,7 @@ class MyClient(discord.Client):
             embedd.add_field(name="rab!kick |[user_id]|[reason]", value="Kicks a user. Only for Staff.", inline=False)
             await message.channel.send(embed=embedd)
 
-        elif message.content.startswith("rab!ban"):				#ban DOESNT WORK
+        elif message.content.startswith("rab!ban"):    # Doesn't Currently Work
             role = discord.utils.get(message.author.roles, name="Staff")
             banuserid = message.content.split("|")[1]
             try:
