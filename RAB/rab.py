@@ -7,9 +7,8 @@ import datetime
 #from os import system
 #from ast import literal_eval
 
-
 class MyClient(discord.Client):
-    
+
     async def on_ready(self):
         print("I am Logged in. Beep Bob.")
         channel = client.get_channel(731756741058101248)
@@ -37,16 +36,15 @@ class MyClient(discord.Client):
         embedddddd.add_field(name="Requestable Roles:", value="-_Professional Radio Astronomer_ \n -_Content Creator_ \n -_Trusted_ is for active and trustworthy Members, estimated by Staff.", inline=False)
         embedddddd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
         #await channel.send(embed=embedddddd)
-        while True: 
+        while True:
             await client.change_presence(activity=discord.Game("rab!help"), status=discord.Status.online)
-            
-            
-###############################COMANDS##################################
+
+##### COMMANDS #####
     async def on_message(self, message):
         #print("Message by " + str(message.author) + " enthält " + str(message.content))
         if message.author == client.user and message.author.bot == False:
             return
-        
+
         if message.content.startswith("test"):
             await message.channel.send("kek")
             #await message.channel.send(str(message.author.roles))660914279729332224
@@ -61,20 +59,19 @@ class MyClient(discord.Client):
             embedd.add_field(name="rab!kick |[user_id]|[reason]", value="Kicks a user. Only for Staff.", inline=False)
             await message.channel.send(embed=embedd)
 
-        
         elif message.content.startswith("rab!ban"):				#ban DOESNT WORK
             role = discord.utils.get(message.author.roles, name="Staff")
             banuserid = message.content.split("|")[1]
             try:
                 banreason = message.content.split("|")[2]
             except:
-                banreason = "Reason not specifified."
-            
+                banreason = "Reason not specified."
+
             try:
                 deleteMsgDays = message.content.split("|")[3]
             except:
                 deleteMsgDays = 0
-                
+
             if role in message.author.roles:
                 if str(message.author.id) != banuserid:
                     try:
@@ -86,18 +83,17 @@ class MyClient(discord.Client):
                     except:
                         await message.channel.send("User not found")
                 else:
-                     await message.channel.send("You cant ban yourself bruh")
+                     await message.channel.send("You can't ban yourself bruh...")
             else:
-                 await message.channel.send("You cant use that command")
+                 await message.channel.send("You can't use that command!")
 
-
-        elif message.content.startswith("rab!kick"):						#kick DOENST WORK
+        elif message.content.startswith("rab!kick"):    # Doesn't Work Currently
             role = discord.utils.get(message.author.roles, name="Staff")
             kickuserid = message.content.split("|")[1]
             try:
                 kickreason = message.content.split("|")[2]
             except:
-                kickreason = "Reason not specifified."
+                kickreason = "Reason not specified."
                 
             if role in message.author.roles:
                 if str(message.author.id) != kickuserid:
@@ -109,11 +105,10 @@ class MyClient(discord.Client):
                     except:
                         await message.channel.send("User not found")
                 else:
-                     await message.channel.send("You cant kick yourself bruh")
+                     await message.channel.send("You can't kick yourself bruh...")
             else:
-                 await message.channel.send("You cant use that command!")
+                 await message.channel.send("You can't use that command!")
 
-            
         elif message.content.startswith("rab!calc"):
             calculation_string = str(message.content)[8:]
             calculation_output = eval(calculation_string)
@@ -127,11 +122,9 @@ class MyClient(discord.Client):
         else:
             pass
 
-            
-#########################################################################
+##### END OF COMMANDS #####
 
-            
-##########################moderation/logging#####################################
+##### MODERATION / LOGGING #####
     async def on_typing(self, channel, user, when):
         pass
 
@@ -173,7 +166,7 @@ class MyClient(discord.Client):
         embedd.add_field(name="**Account Creation:**", value=str(dhms) + " days, hours, minutes, seconds ago", inline=False)
         await channel.send(embed=embedd)
         await channel1.send("Hey " + member.mention + ", welcome to **Radio Astronomy and Space**:tada::hugging:! Please read the Rules in " + rai.mention + ", verify yourself in " + v.mention + " and give yourself roles in " + r.mention)
-    
+
     async def on_member_remove(self, member):
         channel = client.get_channel(657875763546161153)
         channel1 = client.get_channel(657877136878862336)
@@ -184,12 +177,10 @@ class MyClient(discord.Client):
         embedd.add_field(name="Member ID:", value=str(member.id), inline=False)
         await channel.send(embed=embedd)
         await channel1.send("**" + str(member) + "** just left the server:slight_frown:")
-    
-#    async def on_member_update(self, before, after):
- #       channel = client.get_channel(657875763546161153)
-  #      await channel.send("`" + "a user..." + "` **changed nickname from** `" + str(before.nick) + "` **to** `" + str(after.nick) + "`")
 
-
+        #async def on_member_update(self, before, after):
+            #channel = client.get_channel(657875763546161153)
+            #wait channel.send("`" + "a user..." + "` **changed nickname from** `" + str(before.nick) + "` **to** `" + str(after.nick) + "`")
 
     async def on_raw_reaction_add(self, payload): #reaction based role assingment DOESNT WORK
         guild = client.get_guild(payload.guild_id)
@@ -213,7 +204,6 @@ class MyClient(discord.Client):
 
         KytN = discord.utils.get(guild.roles, name="Kaffee's YT Notify")
         SN = discord.utils.get(guild.roles, name="Space News")
-
 
         if str(payload.channel_id) == "660914279729332224":
             if str(message.id) == "735422605569556592":
@@ -248,17 +238,11 @@ class MyClient(discord.Client):
 
             else:
                 pass
-        
+
         else:
             pass
-        
-    
-#########################################################################   
-                                
 
+##### END OF MODERATION / LOGGING #####
 
-
-        
-          
 client = MyClient()
 client.run("TOKEN")
