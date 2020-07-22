@@ -57,7 +57,7 @@ class MyClient(discord.Client):
         else:
             pass
         
-#        if message.content.startswith("ft!cancel"):
+#        if message.content.startswith("ft!cancel"):        DOESNT WORK
 #            system("pkill -f top_block.py")
 #
 #        else:
