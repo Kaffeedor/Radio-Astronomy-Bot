@@ -35,19 +35,19 @@ class MyClient(discord.Client):
                 pass
 
             if nchan == "512":
-                system("python top_block.py --c-freq=1420e6 --samp-rate=2.4e6 --nchan=512 --nbin=4688 --obs-time="+str(obst))
+                system("python top_block.py --c-freq=1.420e9 --samp-rate=2.4e6 --nchan=512 --nbin=4688 --obs-time="+str(obst))
                 system("python plot_hi.py freq=1420e6 samp_rate=2.4e6 nchan=512 nbin=4688")
             elif nchan == "1024":
-                system("python top_block.py --c-freq=1420e6 --samp-rate=2.4e6 --nchan=1024 --nbin=2344 --obs-time="+str(obst))
-                system("python plot_hi.py freq=1420e6 samp_rate=2.4e6 nchan=1024 nbin=2344")
+                system("python top_block.py --c-freq=1.420e9 --samp-rate=2.4e6 --nchan=1024 --nbin=2344 --obs-time="+str(obst))
+                system("python plot_hi.py freq=1.420e9 samp_rate=2.4e6 nchan=1024 nbin=2344")
             elif nchan == "2048":
-                system("python top_block.py --c-freq=1420e6 --samp-rate=2.4e6 --nchan=2048 --nbin=1172 --obs-time="+str(obst))
-                system("python plot_hi.py freq=1420e6 samp_rate=2.4e6 nchan=2048 nbin=1172")
+                system("python top_block.py --c-freq=1.420e9 --samp-rate=2.4e6 --nchan=2048 --nbin=1172 --obs-time="+str(obst))
+                system("python plot_hi.py freq=1.420e9 samp_rate=2.4e6 nchan=2048 nbin=1172")
             else:
                 await message.channel.send("(You need to use `512`, `1024` or `2048` for `nchan`!)")
 
             sleep(2)
-            print("obs done")
+            print("observation done")
             try:
                 await message.channel.send("Your Observation is here. Fresh and Tasty!", file=discord.File("plot.png"))
             except:
