@@ -1,1 +1,1 @@
-Use the VIRGO programm by 0xCoto and put it in the same folder
+Use [VIRGO](https://github.com/0xCoto/VIRGO) by [0xCoto](https://github.com/0xCoto) put it in the same folder as this one.
