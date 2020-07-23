@@ -555,7 +555,7 @@ class MyClient(discord.Client):
                    
 
             elif str(message.id) == "735422607779823617":           #other roles
-                if str(payload.emoji) == "🔴":
+                if str(payload.emoji) == "☕":
                     await Member.add_roles(KytN)
                 elif str(payload.emoji) == "🚀":
                     await Member.add_roles(SN)
@@ -635,7 +635,7 @@ class MyClient(discord.Client):
                     await Member.remove_roles(Ran)
                    
             elif str(message.id) == "735422607779823617":         
-                if str(payload.emoji) == "🔴":
+                if str(payload.emoji) == "☕":
                     await Member.remove_roles(KytN)
                 elif str(payload.emoji) == "🚀":
                     await Member.remove_roles(SN)
