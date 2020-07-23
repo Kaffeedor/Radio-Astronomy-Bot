@@ -173,18 +173,78 @@ class MyClient(discord.Client):
         embedd = discord.Embed(title="__**Member Left**__", description="A Member left the server.", colour=discord.Colour.red())
         embedd.set_thumbnail(url=member.avatar_url)
         embedd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
-        embedd.add_field(name="Member", value="@" + str(member), inline=False)
+        embedd.add_field(name="Member", value=member.mention, inline=False)
         embedd.add_field(name="Member ID:", value=str(member.id), inline=False)
         await channel.send(embed=embedd)
         await channel1.send("**" + str(member) + "** just left the server:slight_frown:")
 
-        #async def on_member_update(self, before, after):
-            #channel = client.get_channel(657875763546161153)
-            #wait channel.send("`" + "a user..." + "` **changed nickname from** `" + str(before.nick) + "` **to** `" + str(after.nick) + "`")
+    async def on_member_update(self, before, after):
+        channel = client.get_channel(657875763546161153)
+        if before.nick != after.nick and before.bot == False:
+            embedd = discord.Embed(title="__**Nickname Changed**__", description="A Member has changed her/his Nickname.", colour=discord.Colour.dark_orange())
+            embedd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
+            embedd.add_field(name="Member:", value=before.mention, inline=False)
+            embedd.add_field(name="Changed Nickname Before:", value=str(before.nick), inline=True)
+            embedd.add_field(name="Changed Nickname After:", value=str(after.nick), inline=True)
+            await channel.send(embed=embedd)
 
-    async def on_raw_reaction_add(self, payload): #reaction based role assingment DOESNT WORK
+        else:
+            pass
+
+        if before.roles != after.roles:
+            i1=0
+            i2=0
+            for i in before.roles:
+                i1+=1
+            for i in after.roles:
+                i2+=1
+            if i1-i2 > 0:
+                change = "Removed"
+                differnce=list(set(before.roles) - set(after.roles))
+                emojie=":no_entry:"
+            elif i1-i2 < 0:
+                change = "Added"
+                differnce=list(set(after.roles) - set(before.roles))
+                emojie=":white_check_mark:"
+            else:
+                change = "Bruh ERROR"
+            embedd = discord.Embed(title="Role " + change, description="A Member has changed her/his Roles.", colour=discord.Colour.dark_orange())
+            embedd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
+            embedd.add_field(name="Member:", value=before.mention, inline=False)
+            embedd.add_field(name=emojie+change + " Role:", value=str(differnce), inline=False)
+            await channel.send(embed=embedd)
+        else:
+            pass
+    
+    async def on_user_update(self, before, after):
+        channel = client.get_channel(657875763546161153)
+        if str(before.avatar_url) != str(after.avatar_url):
+            embeddd = discord.Embed(title="__**Avatar Changed**__", description="A Member has changed her/his Avatar.", colour=discord.Colour.dark_orange())
+            embeddd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
+            embeddd.add_field(name="Member:", value=before.mention, inline=False)
+            embeddd.set_thumbnail(url=after.avatar_url)
+            embeddd.add_field(name="Changed Avatar Before (LINK DOESNT WORK):", value=str(before.avatar_url), inline=True)
+            embeddd.add_field(name="Changed Avatar After:", value=str(after.avatar_url), inline=True)
+            await channel.send(embed=embeddd)
+        else:
+            pass
+        
+        if str(before.name) != str(after.name):
+            embeddd = discord.Embed(title="__**Username Changed**__", description="A Member has changed her/his Username.", colour=discord.Colour.dark_orange())
+            embeddd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
+            embeddd.add_field(name="Member:", value=after.mention, inline=False)
+            embeddd.set_thumbnail(url=after.avatar_url)
+            embeddd.add_field(name="Changed Username Before:", value=str(before.name), inline=True)
+            embeddd.add_field(name="Changed Username After:", value=str(after.name), inline=True)
+            await channel.send(embed=embeddd)
+        else:
+            pass
+
+
+    async def on_raw_reaction_add(self, payload):
         guild = client.get_guild(payload.guild_id)
-        Member = client.get_user(payload.user_id)
+        Member = guild.get_member(payload.user_id)
+        user = client.get_user(payload.user_id)
         channel = client.get_channel(payload.channel_id)
         message = await channel.fetch_message(payload.message_id)
 
@@ -206,39 +266,383 @@ class MyClient(discord.Client):
         SN = discord.utils.get(guild.roles, name="Space News")
 
         if str(payload.channel_id) == "660914279729332224":
-            if str(message.id) == "735422605569556592":
+            if str(message.id) == "735422605569556592":             #Astronomy and RA Roles
                 if str(payload.emoji) == "🔴":
                     await Member.add_roles(exRAm)
+                    try:
+                        await Member.remove_roles(RAm)
+                        await message.remove_reaction("🟠", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Rab)
+                        await message.remove_reaction("🟡", Member)
+                    except:
+                        pass
                 elif str(payload.emoji) == "🟠":
                     await Member.add_roles(RAm)
+                    try:
+                        await Member.remove_roles(exRAm)
+                        await message.remove_reaction("🔴", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(RAb)
+                        await message.remove_reaction("🟡", Member)
+                    except:
+                        pass
                 elif str(payload.emoji) == "🟡":
                     await Member.add_roles(RAb)
+                    try:
+                        await Member.remove_roles(RAm)
+                        await message.remove_reaction("🟠", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(exRAm)
+                        await message.remove_reaction("🔴", Member)
+                    except:
+                        pass
+
                 elif str(payload.emoji) == "🟢":
                     await Member.add_roles(As)
+                    try:
+                        await Member.remove_roles(St)
+                        await message.remove_reaction("🔵", Member)
+                    except:
+                        pass
                 elif str(payload.emoji) == "🔵":
                     await Member.add_roles(St)
+                    try:
+                        await Member.remove_roles(As)
+                        await message.remove_reaction("🟢", Member)
+                    except:
+                        pass
                 else:
                     pass
 
-            elif str(message.id) == "735422606634778685":
-                if str(payload.name) == "":
-                    await user.add_roles()
-                elif str(payload.name) == "":
-                    await user.add_roles()
-                else:
-                    pass
+            elif str(message.id) == "735422606634778685":           #Region Roles
+                if str(payload.emoji) == "❤️":
+                    await Member.add_roles(Rna)
+                    try:
+                        await Member.remove_roles(Reu)
+                        await message.remove_reaction("🧡", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Ras)
+                        await message.remove_reaction("💛", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Rsa)
+                        await message.remove_reaction("💚", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Raf)
+                        await message.remove_reaction("💙", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Raao)
+                        await message.remove_reaction("💜", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Ran)
+                        await message.remove_reaction("🤍", Member)
+                    except:
+                        pass
+                   
+                elif str(payload.emoji) == "🧡":
+                    await Member.add_roles(Reu)
+                    try:
+                        await Member.remove_roles(Rna)
+                        await message.remove_reaction("❤️", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Ras)
+                        await message.remove_reaction("💛", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Rsa)
+                        await message.remove_reaction("💚", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Raf)
+                        await message.remove_reaction("💙", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Raao)
+                        await message.remove_reaction("💜", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Ran)
+                        await message.remove_reaction("🤍", Member)
+                    except:
+                        pass
+                
+                elif str(payload.emoji) == "💛":
+                    await Member.add_roles(Ras)
+                    try:
+                        await Member.remove_roles(Rna)
+                        await message.remove_reaction("❤️", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Reu)
+                        await message.remove_reaction("🧡", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Rsa)
+                        await message.remove_reaction("💚", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Raf)
+                        await message.remove_reaction("💙", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Raao)
+                        await message.remove_reaction("💜", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Ran)
+                        await message.remove_reaction("🤍", Member)
+                    except:
+                        pass
 
-            elif str(message.id) == "735422607779823617":
-                if str(payload.name) == "":
-                    await user.add_roles()
-                elif str(payload.name) == "":
-                    await user.add_roles()
+                elif str(payload.emoji) == "💚":
+                    await Member.add_roles(Rsa)
+                    try:
+                        await Member.remove_roles(Rna)
+                        await message.remove_reaction("❤️", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Reu)
+                        await message.remove_reaction("🧡", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Ras)
+                        await message.remove_reaction("💛", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Raf)
+                        await message.remove_reaction("💙", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Raao)
+                        await message.remove_reaction("💜", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Ran)
+                        await message.remove_reaction("🤍", Member)
+                    except:
+                        pass
+
+                elif str(payload.emoji) == "💙":
+                    await Member.add_roles(Raf)
+                    try:
+                        await Member.remove_roles(Rna)
+                        await message.remove_reaction("❤️", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Reu)
+                        await message.remove_reaction("🧡", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Ras)
+                        await message.remove_reaction("💛", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Rsa)
+                        await message.remove_reaction("💚", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Raao)
+                        await message.remove_reaction("💜", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Ran)
+                        await message.remove_reaction("🤍", Member)
+                    except:
+                        pass
+
+                elif str(payload.emoji) == "💜":
+                    await Member.add_roles(Raao)
+                    try:
+                        await Member.remove_roles(Rna)
+                        await message.remove_reaction("❤️", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Reu)
+                        await message.remove_reaction("🧡", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Ras)
+                        await message.remove_reaction("💛", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Rsa)
+                        await message.remove_reaction("💚", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Raf)
+                        await message.remove_reaction("💙", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Ran)
+                        await message.remove_reaction("🤍", Member)
+                    except:
+                        pass
+
+                elif str(payload.emoji) == "🤍":
+                    await Member.add_roles(Ran)
+                    try:
+                        await Member.remove_roles(Rna)
+                        await message.remove_reaction("❤️", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Reu)
+                        await message.remove_reaction("🧡", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Ras)
+                        await message.remove_reaction("💛", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Rsa)
+                        await message.remove_reaction("💚", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Raf)
+                        await message.remove_reaction("💙", Member)
+                    except:
+                        pass
+                    try:
+                        await Member.remove_roles(Raao)
+                        await message.remove_reaction("💜", Member)
+                    except:
+                        pass
+                   
+
+            elif str(message.id) == "735422607779823617":           #other roles
+                if str(payload.emoji) == "🔴":
+                    await Member.add_roles(KytN)
+                elif str(payload.emoji) == "🚀":
+                    await Member.add_roles(SN)
                 else:
                     pass
 
             else:
                 pass
 
+        else:
+            pass
+
+    async def on_raw_reaction_remove(self, payload):
+        guild = client.get_guild(payload.guild_id)
+        Member = guild.get_member(payload.user_id)
+        user = client.get_user(payload.user_id)
+        channel = client.get_channel(payload.channel_id)
+        message = await channel.fetch_message(payload.message_id)
+
+        exRAm = discord.utils.get(guild.roles, name="Experienced Radio Amateur")
+        RAm = discord.utils.get(guild.roles, name="Radio Astronomy Amateur")
+        RAb = discord.utils.get(guild.roles, name="Radio Astronomy Beginner")
+        As = discord.utils.get(guild.roles, name="Astronomer")
+        St = discord.utils.get(guild.roles, name="Stargazer")
+
+        Rna = discord.utils.get(guild.roles, name="North America")
+        Ras = discord.utils.get(guild.roles, name="Asia")
+        Reu = discord.utils.get(guild.roles, name="Europe")
+        Rsa = discord.utils.get(guild.roles, name="South America")
+        Raao = discord.utils.get(guild.roles, name="Australia and Oceanie")
+        Raf = discord.utils.get(guild.roles, name="Africa")
+        Ran = discord.utils.get(guild.roles, name="Antarctica")
+
+        KytN = discord.utils.get(guild.roles, name="Kaffee's YT Notify")
+        SN = discord.utils.get(guild.roles, name="Space News")
+
+        if str(payload.channel_id) == "660914279729332224":
+            if str(message.id) == "735422605569556592":        
+                if str(payload.emoji) == "🔴":
+                    await Member.remove_roles(exRAm)
+                  
+                elif str(payload.emoji) == "🟠":
+                    await Member.remove_roles(RAm)
+
+                elif str(payload.emoji) == "🟡":
+                    await Member.remove_roles(RAb)
+
+                elif str(payload.emoji) == "🟢":
+                    await Member.remove_roles(As)
+
+                elif str(payload.emoji) == "🔵":
+                    await Member.remove_roles(St)
+
+                else:
+                    pass
+
+            elif str(message.id) == "735422606634778685":           
+                if str(payload.emoji) == "❤️":
+                    await Member.remove_roles(Rna)
+                   
+                elif str(payload.emoji) == "🧡":
+                    await Member.remove_roles(Reu)
+                
+                elif str(payload.emoji) == "💛":
+                    await Member.remove_roles(Ras)
+
+                elif str(payload.emoji) == "💚":
+                    await Member.remove_roles(Rsa)
+
+                elif str(payload.emoji) == "💙":
+                    await Member.remove_roles(Raf)
+
+                elif str(payload.emoji) == "💜":
+                    await Member.remove_roles(Raao)
+
+                elif str(payload.emoji) == "🤍":
+                    await Member.remove_roles(Ran)
+                   
+            elif str(message.id) == "735422607779823617":         
+                if str(payload.emoji) == "🔴":
+                    await Member.remove_roles(KytN)
+                elif str(payload.emoji) == "🚀":
+                    await Member.remove_roles(SN)
+                else:
+                    pass
+            else:
+                pass
         else:
             pass
 
