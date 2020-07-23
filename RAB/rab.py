@@ -215,7 +215,7 @@ class MyClient(discord.Client):
             await channel.send(embed=embedd)
         else:
             pass
-    
+
     async def on_user_update(self, before, after):
         channel = client.get_channel(657875763546161153)
         if str(before.avatar_url) != str(after.avatar_url):
@@ -228,7 +228,7 @@ class MyClient(discord.Client):
             await channel.send(embed=embeddd)
         else:
             pass
-        
+
         if str(before.name) != str(after.name):
             embeddd = discord.Embed(title="__**Username Changed**__", description="A Member has changed her/his Username.", colour=discord.Colour.dark_orange())
             embeddd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
@@ -239,7 +239,6 @@ class MyClient(discord.Client):
             await channel.send(embed=embeddd)
         else:
             pass
-
 
     async def on_raw_reaction_add(self, payload):
         guild = client.get_guild(payload.guild_id)
@@ -354,7 +353,7 @@ class MyClient(discord.Client):
                         await message.remove_reaction("🤍", Member)
                     except:
                         pass
-                   
+
                 elif str(payload.emoji) == "🧡":
                     await Member.add_roles(Reu)
                     try:
@@ -387,7 +386,7 @@ class MyClient(discord.Client):
                         await message.remove_reaction("🤍", Member)
                     except:
                         pass
-                
+
                 elif str(payload.emoji) == "💛":
                     await Member.add_roles(Ras)
                     try:
@@ -585,7 +584,7 @@ class MyClient(discord.Client):
         Ras = discord.utils.get(guild.roles, name="Asia")
         Reu = discord.utils.get(guild.roles, name="Europe")
         Rsa = discord.utils.get(guild.roles, name="South America")
-        Raao = discord.utils.get(guild.roles, name="Australia and Oceanie")
+        Raao = discord.utils.get(guild.roles, name="Australia and Oceania")
         Raf = discord.utils.get(guild.roles, name="Africa")
         Ran = discord.utils.get(guild.roles, name="Antarctica")
 
@@ -596,7 +595,7 @@ class MyClient(discord.Client):
             if str(message.id) == "735422605569556592":        
                 if str(payload.emoji) == "🔴":
                     await Member.remove_roles(exRAm)
-                  
+
                 elif str(payload.emoji) == "🟠":
                     await Member.remove_roles(RAm)
 
@@ -615,10 +614,10 @@ class MyClient(discord.Client):
             elif str(message.id) == "735422606634778685":           
                 if str(payload.emoji) == "❤️":
                     await Member.remove_roles(Rna)
-                   
+
                 elif str(payload.emoji) == "🧡":
                     await Member.remove_roles(Reu)
-                
+
                 elif str(payload.emoji) == "💛":
                     await Member.remove_roles(Ras)
 
@@ -633,7 +632,7 @@ class MyClient(discord.Client):
 
                 elif str(payload.emoji) == "🤍":
                     await Member.remove_roles(Ran)
-                   
+
             elif str(message.id) == "735422607779823617":         
                 if str(payload.emoji) == "☕":
                     await Member.remove_roles(KytN)
