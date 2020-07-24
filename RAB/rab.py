@@ -133,8 +133,19 @@ class MyClient(discord.Client):
                 await message.channel.send(str(calc_output)+" Centimeters Per Pole")
             else:
                 await message.channel.send("'Too Big' or something")
-        except:
+        except:  #where is the try for this??
             await message.channel.send("An Error Occured!")
+
+#verification          
+        elif message.content.startswith("!verify"):
+            role1 = discord.utils.get(message.guild.roles, name="Verified")
+            role2 = discord.utils.get(message.guild.roles, name="Unverified")
+            await message.author.add_roles(role1)
+            await message.author.remove_roles(role2)
+            await message.author.send("You Got verifed!")
+            sleep(1)
+            await message.delete()
+
 
         else:
             pass
