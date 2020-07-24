@@ -1,1 +1,3 @@
-Use [VIRGO](https://github.com/0xCoto/VIRGO) by [0xCoto](https://github.com/0xCoto) put it in the same folder as this one.
+# Radio Telescope Operation Instructions
+Use [VIRGO](https://github.com/0xCoto/VIRGO) by [0xCoto](https://github.com/0xCoto) and put the repository (exclude the `readme.md` file) in the same folder as this one.
+To calibrate offsets (removes curviness from calibrated spectrum), do a long observation with the radio telescope pointed at the ground or a non-active part of the sky. (the longer the better, **1 hour** is ideal) Then rename the `observation.dat` file that appears to *offn.dat* and replace the current file (if it already exists) such that the letter *n* is the number of channels/fft size. Example names: `off256.dat`, `off512.dat`, `off1024.dat`, `off2048.dat`, `off4096.dat`, etc.
