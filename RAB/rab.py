@@ -42,29 +42,25 @@ class MyClient(discord.Client):
 ##### COMMANDS #####
     async def on_message(self, message):
         #print("Message by " + str(message.author) + " enthält " + str(message.content))
-        if message.author == client.user and message.author.bot == False:
+        if message.author == client.user and message.author.bot == True:
             return
 
-# Verify Bot Status
         if message.content.startswith("test"):
             await message.channel.send("kek")
             #await message.channel.send(str(message.author.roles))660914279729332224
             print(message.channel.id)
 
-# List Available Commands
         elif message.content.startswith("rab!help"):
             embedd = discord.Embed(title="__**Help**__", colour=discord.Colour.blue())
             embedd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
-            embedd.add_field(name="rab!help", value="Displays all Available Commands.", inline=False)
-            embedd.add_field(name="rab!calc", value="Calculate Something." inline=False)
-            embedd.add_field(name="rab!calcdipole", value="Calculates a Dipole Antenna's resonant frequency length. Usage: rab!calc [Frequency in MHz]", inline=False)
+            embedd.add_field(name="rab!help", value="To display all Commands", inline=False)
+            embedd.add_field(name="rab!calc", value="Calculate something.", inline=False)
             embedd.add_field(name="rab!ban |[user_id]|[reason]|[delete Messages from last n days]", value="Bans a user. Only for Staff. Use n=0 for not deleting the messages.", inline=False)
             embedd.add_field(name="rab!kick |[user_id]|[reason]", value="Kicks a user. Only for Staff.", inline=False)
             await message.channel.send(embed=embedd)
 
-# Yeet a User
         elif message.content.startswith("rab!ban"):    # Doesn't Currently Work
-            role = discord.utils.get(message.author.roles, name="Staff")
+            role = discord.utils.get(message.guild.roles, name="Staff")
             banuserid = message.content.split("|")[1]
             try:
                 banreason = message.content.split("|")[2]
@@ -78,9 +74,9 @@ class MyClient(discord.Client):
 
             if role in message.author.roles:
                 if str(message.author.id) != banuserid:
+                    User = message.guild.get_member(int(banuserid))
                     try:
-                        discord.User = client.get_user(int(banuserid))
-                        await discord.User.ban(self, reason=banreason, delete_message_days=deleteMsgDays)
+                        await User.ban(User, reason=banreason, delete_message_days=deleteMsgDays)
                         embedd = discord.Embed(title="`" + banuserid + "` got banned for `" + banreason + "` by " + str(message.author), colour=discord.Colour.red())
                         embedd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
                         await message.channel.send(embed=embedd)
@@ -91,9 +87,8 @@ class MyClient(discord.Client):
             else:
                  await message.channel.send("You can't use that command!")
 
-# Yeet a User but Not Forever
         elif message.content.startswith("rab!kick"):    # Doesn't Work Currently
-            role = discord.utils.get(message.author.roles, name="Staff")
+            role = discord.utils.get(message.guild.roles, name="Staff")
             kickuserid = message.content.split("|")[1]
             try:
                 kickreason = message.content.split("|")[2]
@@ -102,11 +97,12 @@ class MyClient(discord.Client):
                 
             if role in message.author.roles:
                 if str(message.author.id) != kickuserid:
+                    Member = message.guild.get_member(int(kickuserid))
                     try:
-                        discord.Member = client.get_user(int(kickuserid))
-                        await discord.Member.kick(message, reason = kickreason)
+                        await Member.kick(Member, reason = kickreason)
                         embedd = discord.Embed(title="`" + kickuserid + "` got kicked for `" + kickreason + "` by " + str(message.author), colour=discord.Colour.blue())
                         embedd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
+                        message.channel.send(embed=embedd)
                     except:
                         await message.channel.send("User not found")
                 else:
@@ -114,9 +110,8 @@ class MyClient(discord.Client):
             else:
                  await message.channel.send("You can't use that command!")
 
-# Calculate a Input
         elif message.content.startswith("rab!calc"):
-            calculation_string = str(message.content)[9:]
+            calculation_string = str(message.content)[8:]
             calculation_output = eval(calculation_string)
 
             if len(str(calculation_output)) <= 2000:
@@ -124,18 +119,15 @@ class MyClient(discord.Client):
             else:
                 await message.channel.send("'Too Big' or something")
 
-# Calculate a Dipole Antenna's Resonant Frequency
-        elif message.content.startswith("rab!calcdipole"):
-            dipole_calc_string = str(message.content)[15:]
-            dipole_calc_int = int(dipole_calc_string)
-            calc_output = eval((299.792458/dipole_calc_int)*50)
-            if len(str(calc_output)) <= 2000:
-                await message.channel.send(str(calc_output)+" Centimeters Per Pole")
-            else:
-                await message.channel.send("'Too Big' or something")
-        except:
-            await message.channel.send("An Error Occured!")
-
+        elif message.content.startswith("!verify"):
+            role1 = discord.utils.get(message.guild.roles, name="Verified")
+            role2 = discord.utils.get(message.guild.roles, name="Unverified")
+            await message.author.add_roles(role1)
+            await message.author.remove_roles(role2)
+            await message.author.send("You Got verifed!")
+            sleep(1)
+            await message.delete()
+        
         else:
             pass
 
@@ -232,7 +224,7 @@ class MyClient(discord.Client):
             await channel.send(embed=embedd)
         else:
             pass
-
+    
     async def on_user_update(self, before, after):
         channel = client.get_channel(657875763546161153)
         if str(before.avatar_url) != str(after.avatar_url):
@@ -245,7 +237,7 @@ class MyClient(discord.Client):
             await channel.send(embed=embeddd)
         else:
             pass
-
+        
         if str(before.name) != str(after.name):
             embeddd = discord.Embed(title="__**Username Changed**__", description="A Member has changed her/his Username.", colour=discord.Colour.dark_orange())
             embeddd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
@@ -256,6 +248,7 @@ class MyClient(discord.Client):
             await channel.send(embed=embeddd)
         else:
             pass
+
 
     async def on_raw_reaction_add(self, payload):
         guild = client.get_guild(payload.guild_id)
@@ -274,7 +267,7 @@ class MyClient(discord.Client):
         Ras = discord.utils.get(guild.roles, name="Asia")
         Reu = discord.utils.get(guild.roles, name="Europe")
         Rsa = discord.utils.get(guild.roles, name="South America")
-        Raao = discord.utils.get(guild.roles, name="Australia and Oceania")
+        Raao = discord.utils.get(guild.roles, name="Australia and Oceanie")
         Raf = discord.utils.get(guild.roles, name="Africa")
         Ran = discord.utils.get(guild.roles, name="Antarctica")
 
@@ -370,7 +363,7 @@ class MyClient(discord.Client):
                         await message.remove_reaction("🤍", Member)
                     except:
                         pass
-
+                   
                 elif str(payload.emoji) == "🧡":
                     await Member.add_roles(Reu)
                     try:
@@ -403,7 +396,7 @@ class MyClient(discord.Client):
                         await message.remove_reaction("🤍", Member)
                     except:
                         pass
-
+                
                 elif str(payload.emoji) == "💛":
                     await Member.add_roles(Ras)
                     try:
@@ -601,7 +594,7 @@ class MyClient(discord.Client):
         Ras = discord.utils.get(guild.roles, name="Asia")
         Reu = discord.utils.get(guild.roles, name="Europe")
         Rsa = discord.utils.get(guild.roles, name="South America")
-        Raao = discord.utils.get(guild.roles, name="Australia and Oceania")
+        Raao = discord.utils.get(guild.roles, name="Australia and Oceanie")
         Raf = discord.utils.get(guild.roles, name="Africa")
         Ran = discord.utils.get(guild.roles, name="Antarctica")
 
@@ -612,7 +605,7 @@ class MyClient(discord.Client):
             if str(message.id) == "735422605569556592":        
                 if str(payload.emoji) == "🔴":
                     await Member.remove_roles(exRAm)
-
+                  
                 elif str(payload.emoji) == "🟠":
                     await Member.remove_roles(RAm)
 
@@ -631,10 +624,10 @@ class MyClient(discord.Client):
             elif str(message.id) == "735422606634778685":           
                 if str(payload.emoji) == "❤️":
                     await Member.remove_roles(Rna)
-
+                   
                 elif str(payload.emoji) == "🧡":
                     await Member.remove_roles(Reu)
-
+                
                 elif str(payload.emoji) == "💛":
                     await Member.remove_roles(Ras)
 
@@ -649,7 +642,7 @@ class MyClient(discord.Client):
 
                 elif str(payload.emoji) == "🤍":
                     await Member.remove_roles(Ran)
-
+                   
             elif str(message.id) == "735422607779823617":         
                 if str(payload.emoji) == "☕":
                     await Member.remove_roles(KytN)
@@ -665,4 +658,4 @@ class MyClient(discord.Client):
 ##### END OF MODERATION / LOGGING #####
 
 client = MyClient()
-client.run("TOKEN")
+client.run("NzI5MjQzMzA2NzY4MzM0ODY4.Xw4Ldw.4xxQwIM6hqDldetNVMSixjTJGz0")
