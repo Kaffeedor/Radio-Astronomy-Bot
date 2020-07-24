@@ -53,10 +53,11 @@ class MyClient(discord.Client):
         elif message.content.startswith("rab!help"):
             embedd = discord.Embed(title="__**Help**__", colour=discord.Colour.blue())
             embedd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
-            embedd.add_field(name="rab!help", value="To display all Commands", inline=False)
-            embedd.add_field(name="rab!calc", value="Calculate something.", inline=False)
-            embedd.add_field(name="rab!ban |[user_id]|[reason]|[delete Messages from last n days]", value="Bans a user. Only for Staff. Use n=0 for not deleting the messages.", inline=False)
-            embedd.add_field(name="rab!kick |[user_id]|[reason]", value="Kicks a user. Only for Staff.", inline=False)
+            embedd.add_field(name="rab!help", value="Displays all Available Commands.", inline=False)
+            embedd.add_field(name="rab!calc ", value="Calculate Something. (Make a Space between Calculation and `calc`.)", inline=False)
+            embedd.add_field(name="rab!antennacalc [antenna type] [Paramters]", value="Calculates a Antenna.\n -__Antenna types:__ Dipole; \n -__Paramters:__ Frequency in MHz; \n -__Output:__ Resonant frequency length;", inline=False)
+            embedd.add_field(name="ERROR! rab!ban |[user_id]|[reason]|[delete Messages from last n days]", value="Bans a user. Only for Staff. Use n=0 for not deleting the messages.", inline=False)
+            embedd.add_field(name="ERROR! rab!kick |[user_id]|[reason]", value="Kicks a user. Only for Staff.", inline=False)
             await message.channel.send(embed=embedd)
 
         elif message.content.startswith("rab!ban"):    # Doesn't Currently Work
@@ -111,14 +112,35 @@ class MyClient(discord.Client):
                  await message.channel.send("You can't use that command!")
 
         elif message.content.startswith("rab!calc"):
-            calculation_string = str(message.content)[8:]
-            calculation_output = eval(calculation_string)
-
+            calculation_string = str(message.content)[9:]
+            try:
+                calculation_output = eval(calculation_string)
+            except:
+                calculation_output = "An error occured. Remember: you need to make a space between `calc` and your calculation."
             if len(str(calculation_output)) <= 2000:
                 await message.channel.send(calculation_output)
             else:
                 await message.channel.send("'Too Big' or something")
 
+# Calculate an Antenna
+        elif message.content.startswith("rab!antennacalc"):
+            WhatToCalc=message.content.split(" ")[1]
+
+            if WhatToCalc == "dipole" or WhatToCalc == "Dipole" or WhatToCalc == "dp": #dipole
+                dipole_calc_string = str(message.content.split(" ")[2])
+                dipole_calc_int = int(dipole_calc_string)
+                try:
+                    calc_output = (299.792458/dipole_calc_int)*50
+                    calc_output_text = " Centimeters Per Pole"
+                except:
+                    calc_output = "[!] Error: "
+                    calc_output_text = "An error occured while calculating"
+            if len(str(calc_output)) <= 2000:
+                await message.channel.send(str(calc_output)+calc_output_text)
+            else:
+                await message.channel.send("'Too Big' or something")
+
+#verification          
         elif message.content.startswith("!verify"):
             role1 = discord.utils.get(message.guild.roles, name="Verified")
             role2 = discord.utils.get(message.guild.roles, name="Unverified")
@@ -127,7 +149,7 @@ class MyClient(discord.Client):
             await message.author.send("You Got verifed!")
             sleep(1)
             await message.delete()
-        
+
         else:
             pass
 
@@ -658,4 +680,4 @@ class MyClient(discord.Client):
 ##### END OF MODERATION / LOGGING #####
 
 client = MyClient()
-client.run("NzI5MjQzMzA2NzY4MzM0ODY4.Xw4Ldw.4xxQwIM6hqDldetNVMSixjTJGz0")
+client.run("Token")
