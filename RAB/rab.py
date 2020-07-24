@@ -45,20 +45,24 @@ class MyClient(discord.Client):
         if message.author == client.user and message.author.bot == False:
             return
 
+# Verify Bot Status
         if message.content.startswith("test"):
             await message.channel.send("kek")
             #await message.channel.send(str(message.author.roles))660914279729332224
             print(message.channel.id)
 
+# List Available Commands
         elif message.content.startswith("rab!help"):
             embedd = discord.Embed(title="__**Help**__", colour=discord.Colour.blue())
             embedd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
-            embedd.add_field(name="rab!help", value="To display all Commands", inline=False)
-            embedd.add_field(name="rab!calc", value="Calculate something.", inline=False)
+            embedd.add_field(name="rab!help", value="Displays all Available Commands.", inline=False)
+            embedd.add_field(name="rab!calc", value="Calculate Something." inline=False)
+            embedd.add_field(name="rab!calcdipole", value="Calculates a Dipole Antenna's resonant frequency length. Usage: rab!calc [Frequency in MHz]", inline=False)
             embedd.add_field(name="rab!ban |[user_id]|[reason]|[delete Messages from last n days]", value="Bans a user. Only for Staff. Use n=0 for not deleting the messages.", inline=False)
             embedd.add_field(name="rab!kick |[user_id]|[reason]", value="Kicks a user. Only for Staff.", inline=False)
             await message.channel.send(embed=embedd)
 
+# Yeet a User
         elif message.content.startswith("rab!ban"):    # Doesn't Currently Work
             role = discord.utils.get(message.author.roles, name="Staff")
             banuserid = message.content.split("|")[1]
@@ -87,6 +91,7 @@ class MyClient(discord.Client):
             else:
                  await message.channel.send("You can't use that command!")
 
+# Yeet a User but Not Forever
         elif message.content.startswith("rab!kick"):    # Doesn't Work Currently
             role = discord.utils.get(message.author.roles, name="Staff")
             kickuserid = message.content.split("|")[1]
@@ -109,6 +114,7 @@ class MyClient(discord.Client):
             else:
                  await message.channel.send("You can't use that command!")
 
+# Calculate a Input
         elif message.content.startswith("rab!calc"):
             calculation_string = str(message.content)[9:]
             calculation_output = eval(calculation_string)
@@ -118,6 +124,7 @@ class MyClient(discord.Client):
             else:
                 await message.channel.send("'Too Big' or something")
 
+# Calculate a Dipole Antenna's Resonant Frequency
         elif message.content.startswith("rab!calcdipole"):
             dipole_calc_string = str(message.content)[15:]
             dipole_calc_int = int(dipole_calc_string)
