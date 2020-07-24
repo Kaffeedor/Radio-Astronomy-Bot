@@ -17,3 +17,6 @@ elif message.content.startswith("rab!calc"):
         await message.channel.send("'Too Big' or something")
     else:
         pass
+```
+### Disclaimer: Bot optimized for a Specific Server ([Radio Astronomy and Space](https://disboard.org/server/657857708644499458)):
+This Bot WON'T work if you just copy the code and change the Token! You need to change the Roles and Channels to make it work!
