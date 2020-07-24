@@ -257,7 +257,7 @@ class MyClient(discord.Client):
         Ras = discord.utils.get(guild.roles, name="Asia")
         Reu = discord.utils.get(guild.roles, name="Europe")
         Rsa = discord.utils.get(guild.roles, name="South America")
-        Raao = discord.utils.get(guild.roles, name="Australia and Oceanie")
+        Raao = discord.utils.get(guild.roles, name="Australia and Oceania")
         Raf = discord.utils.get(guild.roles, name="Africa")
         Ran = discord.utils.get(guild.roles, name="Antarctica")
 
