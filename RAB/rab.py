@@ -117,8 +117,6 @@ class MyClient(discord.Client):
                 await message.channel.send(calculation_output)
             else:
                 await message.channel.send("'Too Big' or something")
-
-        
         else:
             pass
 
