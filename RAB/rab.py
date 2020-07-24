@@ -57,7 +57,7 @@ class MyClient(discord.Client):
             embedd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
             embedd.add_field(name="rab!help", value="Displays all Available Commands.", inline=False)
             embedd.add_field(name="rab!calc ", value="Calculate Something. (Make a Space between Calculation and `calc`.)", inline=False)
-            embedd.add_field(name="rab!antennacalc [antenna type] [Paramters]", value="Calculates a Antenna. Antenna type: Dipole; | Paramters: Frequency in MHz; | Output: Resonant frequency length;", inline=False)
+            embedd.add_field(name="rab!antennacalc [antenna type] [Paramters]", value="Calculates a Antenna.\n -__Antenna types:__ Dipole; \n -__Paramters:__ Frequency in MHz; \n -__Output:__ Resonant frequency length;", inline=False)
             embedd.add_field(name="ERROR! rab!ban |[user_id]|[reason]|[delete Messages from last n days]", value="Bans a user. Only for Staff. Use n=0 for not deleting the messages.", inline=False)
             embedd.add_field(name="ERROR! rab!kick |[user_id]|[reason]", value="Kicks a user. Only for Staff.", inline=False)
             await message.channel.send(embed=embedd)
@@ -128,14 +128,14 @@ class MyClient(discord.Client):
                 await message.channel.send("'Too Big' or something")
 
 # Calculate an Antenna
-        elif message.content.startswith("rab!antennacalc dipole"):
+        elif message.content.startswith("rab!antennacalc"):
             WhatToCalc=message.content.split(" ")[1]
 
             if WhatToCalc == "dipole" or WhatToCalc == "Dipole" or WhatToCalc == "dp": #dipole
                 dipole_calc_string = str(message.content.split(" ")[2])
                 dipole_calc_int = int(dipole_calc_string)
                 try:
-                    calc_output = eval((299.792458/dipole_calc_int)*50)
+                    calc_output = (299.792458/dipole_calc_int)*50
                     calc_output_text = " Centimeters Per Pole"
                 except:
                     calc_output = "[!] Error: "
@@ -686,4 +686,4 @@ class MyClient(discord.Client):
 ##### END OF MODERATION / LOGGING #####
 
 client = MyClient()
-client.run("TOKEN")
+client.run("Token")
