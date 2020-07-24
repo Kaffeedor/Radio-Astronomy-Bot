@@ -2,6 +2,7 @@
 Radio Astronomy Bot is a Discord Bot with powerful Moderation tools and some neat Radio Astronomy commands.
 There is also the Fedor's Telescope Bot which controls my Radio Telescope.
 Fedor's Telescope Bot is powered with [VIRGO](https://github.com/0xCoto/VIRGO) by [0xCoto](https://github.com/0xCoto).
+This bot is maintained and is operational on the [Radio Astronomy and Space](https://disboard.org/server/657857708644499458) Discord Server.
 
 ### Disclaimer: Current Security Issue
 The `rab!calc` command currently will interperit anything that is put into it. This will be fixed soon. If you do not want this, dig in and remove it yourself. The part you want to remove is in `/RAB/rab.py/` and the code you want to remove is:
