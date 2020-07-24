@@ -56,10 +56,10 @@ class MyClient(discord.Client):
             embedd = discord.Embed(title="__**Help**__", colour=discord.Colour.blue())
             embedd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
             embedd.add_field(name="rab!help", value="Displays all Available Commands.", inline=False)
-            embedd.add_field(name="rab!calc", value="Calculate Something." inline=False)
-            embedd.add_field(name="rab!calcdipole", value="Calculates a Dipole Antenna's resonant frequency length. Usage: rab!calc [Frequency in MHz]", inline=False)
-            embedd.add_field(name="rab!ban |[user_id]|[reason]|[delete Messages from last n days]", value="Bans a user. Only for Staff. Use n=0 for not deleting the messages.", inline=False)
-            embedd.add_field(name="rab!kick |[user_id]|[reason]", value="Kicks a user. Only for Staff.", inline=False)
+            embedd.add_field(name="rab!calc ", value="Calculate Something. (Make a Space between Calculation and `calc`.)", inline=False)
+            embedd.add_field(name="rab!antennacalc [antenna type] [Paramters]", value="Calculates a Antenna. Antenna type: Dipole; | Paramters: Frequency in MHz; | Output: Resonant frequency length;", inline=False)
+            embedd.add_field(name="ERROR! rab!ban |[user_id]|[reason]|[delete Messages from last n days]", value="Bans a user. Only for Staff. Use n=0 for not deleting the messages.", inline=False)
+            embedd.add_field(name="ERROR! rab!kick |[user_id]|[reason]", value="Kicks a user. Only for Staff.", inline=False)
             await message.channel.send(embed=embedd)
 
 # Yeet a User
@@ -117,24 +117,34 @@ class MyClient(discord.Client):
 # Calculate a Input
         elif message.content.startswith("rab!calc"):
             calculation_string = str(message.content)[9:]
-            calculation_output = eval(calculation_string)
+            try:
+                calculation_output = eval(calculation_string)
+            except:
+                calculation_output = "An error occured. Remember: you need to make a space between `calc` and your calculation."
 
             if len(str(calculation_output)) <= 2000:
                 await message.channel.send(calculation_output)
             else:
                 await message.channel.send("'Too Big' or something")
 
-# Calculate a Dipole Antenna's Resonant Frequency
-        elif message.content.startswith("rab!calcdipole"):
-            dipole_calc_string = str(message.content)[15:]
-            dipole_calc_int = int(dipole_calc_string)
-            calc_output = eval((299.792458/dipole_calc_int)*50)
+# Calculate an Antenna
+        elif message.content.startswith("rab!antennacalc dipole"):
+            WhatToCalc=message.content.split(" ")[1]
+
+            if WhatToCalc == "dipole" or WhatToCalc == "Dipole" or WhatToCalc == "dp": #dipole
+                dipole_calc_string = str(message.content.split(" ")[2])
+                dipole_calc_int = int(dipole_calc_string)
+                try:
+                    calc_output = eval((299.792458/dipole_calc_int)*50)
+                    calc_output_text = " Centimeters Per Pole"
+                except:
+                    calc_output = "[!] Error: "
+                    calc_output_text = "An error occured while calculating"
+
             if len(str(calc_output)) <= 2000:
-                await message.channel.send(str(calc_output)+" Centimeters Per Pole")
+                await message.channel.send(str(calc_output)+calc_output_text)
             else:
                 await message.channel.send("'Too Big' or something")
-        except:  #where is the try for this??
-            await message.channel.send("An Error Occured!")
 
 #verification          
         elif message.content.startswith("!verify"):
