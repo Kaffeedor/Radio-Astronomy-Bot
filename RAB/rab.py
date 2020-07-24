@@ -8,7 +8,6 @@ import datetime
 #from ast import literal_eval
 
 class MyClient(discord.Client):
-
     async def on_ready(self):
         print("I am Logged in. Beep Bob.")
         channel = client.get_channel(731756741058101248)
@@ -70,12 +69,10 @@ class MyClient(discord.Client):
                 banreason = message.content.split("|")[2]
             except:
                 banreason = "Reason not specified."
-
             try:
                 deleteMsgDays = message.content.split("|")[3]
             except:
                 deleteMsgDays = 0
-
             if role in message.author.roles:
                 if str(message.author.id) != banuserid:
                     try:
@@ -121,7 +118,6 @@ class MyClient(discord.Client):
                 calculation_output = eval(calculation_string)
             except:
                 calculation_output = "An error occured. Remember: you need to make a space between `calc` and your calculation."
-
             if len(str(calculation_output)) <= 2000:
                 await message.channel.send(calculation_output)
             else:
@@ -130,7 +126,6 @@ class MyClient(discord.Client):
 # Calculate an Antenna
         elif message.content.startswith("rab!antennacalc"):
             WhatToCalc=message.content.split(" ")[1]
-
             if WhatToCalc == "dipole" or WhatToCalc == "Dipole" or WhatToCalc == "dp": #dipole
                 dipole_calc_string = str(message.content.split(" ")[2])
                 dipole_calc_int = int(dipole_calc_string)
@@ -146,7 +141,7 @@ class MyClient(discord.Client):
             else:
                 await message.channel.send("'Too Big' or something")
 
-#verification          
+# Verification
         elif message.content.startswith("!verify"):
             role1 = discord.utils.get(message.guild.roles, name="Verified")
             role2 = discord.utils.get(message.guild.roles, name="Unverified")
@@ -156,12 +151,10 @@ class MyClient(discord.Client):
             sleep(1)
             await message.delete()
 
-
         else:
             pass
 
 ##### END OF COMMANDS #####
-
 ##### MODERATION / LOGGING #####
     async def on_typing(self, channel, user, when):
         pass
@@ -225,7 +218,6 @@ class MyClient(discord.Client):
             embedd.add_field(name="Changed Nickname Before:", value=str(before.nick), inline=True)
             embedd.add_field(name="Changed Nickname After:", value=str(after.nick), inline=True)
             await channel.send(embed=embedd)
-
         else:
             pass
 
@@ -303,7 +295,7 @@ class MyClient(discord.Client):
         SN = discord.utils.get(guild.roles, name="Space News")
 
         if str(payload.channel_id) == "660914279729332224":
-            if str(message.id) == "735422605569556592":             #Astronomy and RA Roles
+            if str(message.id) == "735422605569556592": # Astronomy and RA Roles
                 if str(payload.emoji) == "🔴":
                     await Member.add_roles(exRAm)
                     try:
@@ -358,7 +350,7 @@ class MyClient(discord.Client):
                 else:
                     pass
 
-            elif str(message.id) == "735422606634778685":           #Region Roles
+            elif str(message.id) == "735422606634778685": # Region Roles
                 if str(payload.emoji) == "❤️":
                     await Member.add_roles(Rna)
                     try:
@@ -591,7 +583,7 @@ class MyClient(discord.Client):
                         pass
                    
 
-            elif str(message.id) == "735422607779823617":           #other roles
+            elif str(message.id) == "735422607779823617": # Other Roles
                 if str(payload.emoji) == "☕":
                     await Member.add_roles(KytN)
                 elif str(payload.emoji) == "🚀":
@@ -630,7 +622,7 @@ class MyClient(discord.Client):
         SN = discord.utils.get(guild.roles, name="Space News")
 
         if str(payload.channel_id) == "660914279729332224":
-            if str(message.id) == "735422605569556592":        
+            if str(message.id) == "735422605569556592":
                 if str(payload.emoji) == "🔴":
                     await Member.remove_roles(exRAm)
 
@@ -649,7 +641,7 @@ class MyClient(discord.Client):
                 else:
                     pass
 
-            elif str(message.id) == "735422606634778685":           
+            elif str(message.id) == "735422606634778685":
                 if str(payload.emoji) == "❤️":
                     await Member.remove_roles(Rna)
 
@@ -671,7 +663,7 @@ class MyClient(discord.Client):
                 elif str(payload.emoji) == "🤍":
                     await Member.remove_roles(Ran)
 
-            elif str(message.id) == "735422607779823617":         
+            elif str(message.id) == "735422607779823617":
                 if str(payload.emoji) == "☕":
                     await Member.remove_roles(KytN)
                 elif str(payload.emoji) == "🚀":

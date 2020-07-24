@@ -4,7 +4,6 @@ from os import system
 from os import remove
 
 class MyClient(discord.Client):
-
     async def on_ready(self):
         print("I am Logged in. Beep Bob.")
         await client.change_presence(activity=discord.Game("ft!observe [sec] [nchan]"), status=discord.Status.online)
@@ -53,13 +52,11 @@ class MyClient(discord.Client):
             except:
                 await message.channel.send("Couldn't find `plot.png` (or some other random error?!)")
             await client.change_presence(activity=discord.Game("ft!observe [sec] [nchan]"), status=discord.Status.online)
-
         else:
             pass
 
 #        if message.content.startswith("ft!cancel"):    # Doesn't Work Currently
 #            system("pkill -f top_block.py")
-
 #        else:
 #            pass
 
