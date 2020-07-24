@@ -110,13 +110,25 @@ class MyClient(discord.Client):
                  await message.channel.send("You can't use that command!")
 
         elif message.content.startswith("rab!calc"):
-            calculation_string = str(message.content)[8:]
+            calculation_string = str(message.content)[9:]
             calculation_output = eval(calculation_string)
 
             if len(str(calculation_output)) <= 2000:
                 await message.channel.send(calculation_output)
             else:
                 await message.channel.send("'Too Big' or something")
+
+        elif message.content.startswith("rab!calcdipole"):
+            dipole_calc_string = str(message.content)[15:]
+            dipole_calc_int = int(dipole_calc_string)
+            calc_output = eval((299.792458/dipole_calc_int)*50)
+            if len(str(calc_output)) <= 2000:
+                await message.channel.send(str(calc_output)+" Centimeters Per Pole")
+            else:
+                await message.channel.send("'Too Big' or something")
+        except:
+            await message.channel.send("An Error Occured!")
+
         else:
             pass
 
