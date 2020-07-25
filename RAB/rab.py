@@ -125,19 +125,26 @@ class MyClient(discord.Client):
 
 # Calculate an Antenna
         elif message.content.startswith("rab!antennacalc"):
-            WhatToCalc=message.content.split(" ")[1]
-            if WhatToCalc == "dipole" or WhatToCalc == "Dipole" or WhatToCalc == "dp": #dipole
+            whattocalc=message.content.split(" ")[1]
+            if whattocalc == "dipole" or whattocalc == "Dipole" or whattocalc == "dp": # Dipole
                 dipole_calc_string = str(message.content.split(" ")[2])
                 dipole_calc_int = int(dipole_calc_string)
                 try:
-                    calc_output = (299.792458/dipole_calc_int)*50
-                    calc_output_text = " Centimeters Per Pole"
+                    calc_outputsingle = (299.792458/dipole_calc_int)*50
+                    calc_outputdouble = (299.792458/dipole_calc_int)*100
+                    outputcalc = str(calc_outputsingle)+" Centimeters per Pole and "+str(calc_outputdouble)+" Centimeters Total Combined"
                 except:
-                    calc_output = "[!] Error: "
-                    calc_output_text = "An error occured while calculating"
-
-            if len(str(calc_output)) <= 2000:
-                await message.channel.send(str(calc_output)+calc_output_text)
+                    outputcalc = "An error occured while calculating!"
+            if whattocalc == "wavelength" or whattocalc == "Wavelength" or whattocalc == "wl": # Frequency to Wavelength
+                frequency = str(message.content.split(" ")[2])
+                dipole_calc_int = int(dipole_calc_string)
+                try:
+                    calc_output = (299.792458/dipole_calc_int)
+                    outputcalc = str(calc_output)+" Meters"
+                except:
+                    outputcalc = "An error occured while calculating!"
+            if len(outputcalc) <= 2000:
+                await message.channel.send(outputcalc)
             else:
                 await message.channel.send("'Too Big' or something")
 
