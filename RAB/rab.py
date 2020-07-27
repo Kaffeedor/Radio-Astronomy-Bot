@@ -14,7 +14,6 @@ class MyClient(discord.Client):
         embedd = discord.Embed(title="I am Logged in. Beep Bob.", description="Bob Beep", colour=discord.Colour.green())
         embedd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
         await channel.send(embed=embedd)
-
         channel = client.get_channel(660914279729332224)
         embeddd = discord.Embed(title="__**Roles**__", description="Here you can give yourself Roles with reacting to Emojies", colour=discord.Colour.dark_green())
         embeddd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
@@ -57,6 +56,7 @@ class MyClient(discord.Client):
             embedd.add_field(name="rab!help", value="Displays all Available Commands.", inline=False)
             embedd.add_field(name="rab!calc ", value="Calculate Something. (Make a Space between Calculation and `calc`.)", inline=False)
             embedd.add_field(name="rab!antennacalc [antenna type] [Paramters]", value="Calculates a Antenna.\n -__Antenna types:__ Dipole; \n -__Paramters:__ Frequency in MHz; \n -__Output:__ Resonant frequency length;", inline=False)
+            embedd.add_field(name="rab!racalc [what to calc] [Paramters]", value="Calculates different RA Things.\n -__What to calc:__ Wavelenght; Frequency \n -__Paramters:__ Frequency in MHz; Wavelenght in m \n -__Output:__ Frequency; Wavelenght", inline=False)
             embedd.add_field(name="ERROR! rab!ban |[user_id]|[reason]|[delete Messages from last n days]", value="Bans a user. Only for Staff. Use n=0 for not deleting the messages.", inline=False)
             embedd.add_field(name="ERROR! rab!kick |[user_id]|[reason]", value="Kicks a user. Only for Staff.", inline=False)
             await message.channel.send(embed=embedd)
@@ -135,14 +135,29 @@ class MyClient(discord.Client):
                     outputcalc = str(calc_outputsingle)+" Centimeters per Pole and "+str(calc_outputdouble)+" Centimeters Total Combined"
                 except:
                     outputcalc = "An error occured while calculating!"
+
+#RA calculations
+        elif message.content.startswith("rab!racalc"):
+            whattocalc=message.content.split(" ")[1]
             if whattocalc == "wavelength" or whattocalc == "Wavelength" or whattocalc == "wl": # Frequency to Wavelength
                 frequency = str(message.content.split(" ")[2])
-                dipole_calc_int = int(dipole_calc_string)
+                frequency_calc_int = int(frequency)
                 try:
-                    calc_output = (299.792458/dipole_calc_int)
+                    calc_output = 299.792458/frequency_calc_int
                     outputcalc = str(calc_output)+" Meters"
                 except:
                     outputcalc = "An error occured while calculating!"
+
+            whattocalc=message.content.split(" ")[1]
+            if whattocalc == "frequency" or whattocalc == "Frequency" or whattocalc == "fq": # Wavelength to Frequency
+                wavelength = str(message.content.split(" ")[2])
+                wavelength_calc_int = int(wavelength)
+                try:
+                    calc_output = (299.792458*wavelength_calc_int)
+                    outputcalc = str(calc_output)+" Hz"
+                except:
+                    outputcalc = "An error occured while calculating!"
+
             if len(outputcalc) <= 2000:
                 await message.channel.send(outputcalc)
             else:
@@ -588,8 +603,6 @@ class MyClient(discord.Client):
                         await message.remove_reaction("💜", Member)
                     except:
                         pass
-                   
-
             elif str(message.id) == "735422607779823617": # Other Roles
                 if str(payload.emoji) == "☕":
                     await Member.add_roles(KytN)
@@ -597,10 +610,8 @@ class MyClient(discord.Client):
                     await Member.add_roles(SN)
                 else:
                     pass
-
             else:
                 pass
-
         else:
             pass
 
@@ -681,8 +692,7 @@ class MyClient(discord.Client):
                 pass
         else:
             pass
-
+			
 ##### END OF MODERATION / LOGGING #####
-
 client = MyClient()
-client.run("Token")
+client.run("TOKEN")
