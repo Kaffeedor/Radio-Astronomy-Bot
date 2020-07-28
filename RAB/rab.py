@@ -208,6 +208,7 @@ class MyClient(discord.Client):
         rai=client.get_channel(657877179417493534)
         v=client.get_channel(660829108250345472)
         r=client.get_channel(660914279729332224)
+        role = client.get_role("Unverified")
         embedd = discord.Embed(title="__**Member Joined**__", description="A Member joined the server.", colour=discord.Colour.green())
         embedd.set_thumbnail(url=member.avatar_url)
         embedd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
@@ -218,6 +219,7 @@ class MyClient(discord.Client):
         dhms=b-a
         embedd.add_field(name="**Account Creation:**", value=str(dhms) + " days, hours, minutes, seconds ago", inline=False)
         await channel.send(embed=embedd)
+        member.add_roles(role)
         await channel1.send("Hey " + member.mention + ", welcome to **Radio Astronomy and Space**:tada::hugging:! Please read the Rules in " + rai.mention + ", verify yourself in " + v.mention + " and give yourself roles in " + r.mention)
 
     async def on_member_remove(self, member):
