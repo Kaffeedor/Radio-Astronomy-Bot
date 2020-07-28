@@ -15,12 +15,12 @@ class MyClient(discord.Client):
         embedd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
         await channel.send(embed=embedd)
         channel = client.get_channel(660914279729332224)
-        embeddd = discord.Embed(title="__**Roles**__", description="Here you can give yourself Roles with reacting to Emojies", colour=discord.Colour.dark_green())
+        embeddd = discord.Embed(title="__**Roles**__", description="Here you can give yourself Roles with reacting to Emojis", colour=discord.Colour.dark_green())
         embeddd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
         embeddd.add_field(name="Radio Astronomy Roles:", value="-:red_circle: for _Experienced Radio Amateur_ \n -:orange_circle: for _Radio Astronomy Amateur_ \n -:yellow_circle: for _Radio Astronomy Beginner_", inline=False)
         embeddd.add_field(name="Astronomy Roles:", value="-:green_circle: for _Astronomer_ \n -:blue_circle: for _Stargazer_", inline=False)
         #await channel.send(embed=embeddd)
-        embedddd = discord.Embed(title="__**Region Roles**__", colour=discord.Colour.purple())
+        embedddd = discord.Embed(title="__**Reigon Roles**__", colour=discord.Colour.purple())
         embedddd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
         embedddd.add_field(name="Northern Hemisphere:", value="-:heart: for _North America_ \n -:orange_heart: for _Europe_ \n -:yellow_heart: for _Asia_", inline=False)
         embedddd.add_field(name="Southern Hemisphere:", value="-:green_heart: for _South America_ \n -:blue_heart: for _Africa_ \n -:purple_heart: for _Australia and Oceania_ \n -:white_heart: for _Antartica_", inline=False)
@@ -43,12 +43,6 @@ class MyClient(discord.Client):
         if message.author == client.user and message.author.bot == False:
             return
 
-# Verify Bot Status
-        if message.content.startswith("test"):
-            await message.channel.send("kek")
-            #await message.channel.send(str(message.author.roles))660914279729332224
-            print(message.channel.id)
-
 # List Available Commands
         elif message.content.startswith("rab!help"):
             embedd = discord.Embed(title="__**Help**__", colour=discord.Colour.blue())
@@ -60,6 +54,22 @@ class MyClient(discord.Client):
             embedd.add_field(name="ERROR! rab!ban |[user_id]|[reason]|[delete Messages from last n days]", value="Bans a user. Only for Staff. Use n=0 for not deleting the messages.", inline=False)
             embedd.add_field(name="ERROR! rab!kick |[user_id]|[reason]", value="Kicks a user. Only for Staff.", inline=False)
             await message.channel.send(embed=embedd)
+
+# Verify Bot Status
+        if message.content.startswith("test"):
+            await message.channel.send("kek")
+            #await message.channel.send(str(message.author.roles))660914279729332224
+            print(message.channel.id)
+
+# Verification
+        elif message.content.startswith("!verify"):
+            role1 = discord.utils.get(message.guild.roles, name="Verified")
+            role2 = discord.utils.get(message.guild.roles, name="Unverified")
+            await message.author.add_roles(role1)
+            await message.author.remove_roles(role2)
+            await message.author.send("You Got Verifed!")
+            sleep(1)
+            await message.delete()
 
 # Yeet a User
         elif message.content.startswith("rab!ban"):    # Doesn't Currently Work
@@ -162,16 +172,6 @@ class MyClient(discord.Client):
                 await message.channel.send(outputcalc)
             else:
                 await message.channel.send("'Too Big' or something")
-
-# Verification
-        elif message.content.startswith("!verify"):
-            role1 = discord.utils.get(message.guild.roles, name="Verified")
-            role2 = discord.utils.get(message.guild.roles, name="Unverified")
-            await message.author.add_roles(role1)
-            await message.author.remove_roles(role2)
-            await message.author.send("You Got verifed!")
-            sleep(1)
-            await message.delete()
 
         else:
             pass
@@ -298,13 +298,13 @@ class MyClient(discord.Client):
         user = client.get_user(payload.user_id)
         channel = client.get_channel(payload.channel_id)
         message = await channel.fetch_message(payload.message_id)
-
+# Experience Roles
         exRAm = discord.utils.get(guild.roles, name="Experienced Radio Amateur")
         RAm = discord.utils.get(guild.roles, name="Radio Astronomy Amateur")
         RAb = discord.utils.get(guild.roles, name="Radio Astronomy Beginner")
         As = discord.utils.get(guild.roles, name="Astronomer")
         St = discord.utils.get(guild.roles, name="Stargazer")
-
+# Location Roles
         Rna = discord.utils.get(guild.roles, name="North America")
         Ras = discord.utils.get(guild.roles, name="Asia")
         Reu = discord.utils.get(guild.roles, name="Europe")
@@ -312,10 +312,10 @@ class MyClient(discord.Client):
         Raao = discord.utils.get(guild.roles, name="Australia and Oceania")
         Raf = discord.utils.get(guild.roles, name="Africa")
         Ran = discord.utils.get(guild.roles, name="Antarctica")
-
+# Notify Roles
         KytN = discord.utils.get(guild.roles, name="Kaffee's YT Notify")
         SN = discord.utils.get(guild.roles, name="Space News")
-
+# Role Assignment
         if str(payload.channel_id) == "660914279729332224":
             if str(message.id) == "735422605569556592": # Astronomy and RA Roles
                 if str(payload.emoji) == "🔴":
@@ -692,7 +692,7 @@ class MyClient(discord.Client):
                 pass
         else:
             pass
-			
+
 ##### END OF MODERATION / LOGGING #####
 client = MyClient()
 client.run("TOKEN")
