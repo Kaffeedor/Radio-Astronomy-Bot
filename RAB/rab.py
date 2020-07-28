@@ -138,7 +138,7 @@ class MyClient(discord.Client):
             whattocalc=message.content.split(" ")[1]
             if whattocalc == "dipole" or whattocalc == "Dipole" or whattocalc == "dp": # Dipole
                 dipole_calc_string = str(message.content.split(" ")[2])
-                dipole_calc_int = int(dipole_calc_string)
+                dipole_calc_int = float(dipole_calc_string)
                 try:
                     calc_outputsingle = (299.792458/dipole_calc_int)*50
                     calc_outputdouble = (299.792458/dipole_calc_int)*100
@@ -151,7 +151,7 @@ class MyClient(discord.Client):
             whattocalc=message.content.split(" ")[1]
             if whattocalc == "wavelength" or whattocalc == "Wavelength" or whattocalc == "wl": # Frequency to Wavelength
                 frequency = str(message.content.split(" ")[2])
-                frequency_calc_int = int(frequency)
+                frequency_calc_int = float(frequency)
                 try:
                     calc_output = 299.792458/frequency_calc_int
                     outputcalc = str(calc_output)+" Meters"
@@ -161,7 +161,7 @@ class MyClient(discord.Client):
             whattocalc=message.content.split(" ")[1]
             if whattocalc == "frequency" or whattocalc == "Frequency" or whattocalc == "fq": # Wavelength to Frequency
                 wavelength = str(message.content.split(" ")[2])
-                wavelength_calc_int = int(wavelength)
+                wavelength_calc_int = float(wavelength)
                 try:
                     calc_output = (299.792458*wavelength_calc_int)
                     outputcalc = str(calc_output)+" Hz"
