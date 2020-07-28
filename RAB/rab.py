@@ -55,8 +55,8 @@ class MyClient(discord.Client):
             embedd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
             embedd.add_field(name="rab!help", value="Displays all Available Commands.", inline=False)
             embedd.add_field(name="rab!calc ", value="Calculate Something. (Make a Space between Calculation and `calc`.)", inline=False)
-            embedd.add_field(name="rab!antennacalc [antenna type] [Paramters]", value="Calculates a Antenna.\n -__Antenna types:__ Dipole; \n -__Paramters:__ Frequency in MHz; \n -__Output:__ Resonant frequency length;", inline=False)
-            embedd.add_field(name="rab!racalc [what to calc] [Paramters]", value="Calculates different RA Things.\n -__What to calc:__ Wavelenght; Frequency \n -__Paramters:__ Frequency in MHz; Wavelenght in m \n -__Output:__ Frequency; Wavelenght", inline=False)
+            embedd.add_field(name="rab!antennacalc [antenna type] [Paramters]", value="Calculates a Antenna.\n -__Antenna types:__ Dipole; \n -__Paramters:__ Frequency in MHz; \n -__Output:__ Resonant Frequency Length;", inline=False)
+            embedd.add_field(name="rab!racalc [what to calc] [Paramters]", value="Calculates different Radio Astronomy Things.\n -__What to calc:__ Wavelength; Frequency \n -__Paramters:__ Frequency in MHz; Wavelength in m \n -__Output:__ Frequency; Wavelength", inline=False)
             embedd.add_field(name="ERROR! rab!ban |[user_id]|[reason]|[delete Messages from last n days]", value="Bans a user. Only for Staff. Use n=0 for not deleting the messages.", inline=False)
             embedd.add_field(name="ERROR! rab!kick |[user_id]|[reason]", value="Kicks a user. Only for Staff.", inline=False)
             await message.channel.send(embed=embedd)
@@ -136,7 +136,7 @@ class MyClient(discord.Client):
                 except:
                     outputcalc = "An error occured while calculating!"
 
-#RA calculations
+# Other Radio Astronomy Calculations
         elif message.content.startswith("rab!racalc"):
             whattocalc=message.content.split(" ")[1]
             if whattocalc == "wavelength" or whattocalc == "Wavelength" or whattocalc == "wl": # Frequency to Wavelength
