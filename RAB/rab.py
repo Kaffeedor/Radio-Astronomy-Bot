@@ -122,16 +122,16 @@ class MyClient(discord.Client):
                  await message.channel.send("You can't use that command!")
 
 # Calculate a Input
-        elif message.content.startswith("rab!calc"):
-            calculation_string = str(message.content)[9:]
-            try:
-                calculation_output = eval(calculation_string)
-            except:
-                calculation_output = "An error occured. Remember: you need to make a space between `calc` and your calculation."
-            if len(str(calculation_output)) <= 2000:
-                await message.channel.send(calculation_output)
-            else:
-                await message.channel.send("'Too Big' or something")
+#        elif message.content.startswith("rab!calc"):
+#            calculation_string = str(message.content)[9:]
+#            try:
+#                calculation_output = eval(calculation_string)
+#            except:
+#                calculation_output = "An error occured. Remember: you need to make a space between `calc` and your calculation."
+#            if len(str(calculation_output)) <= 2000:
+#                await message.channel.send(calculation_output)
+#            else:
+#                await message.channel.send("'Too Big' or something")
 
 # Calculate an Antenna
         elif message.content.startswith("rab!antennacalc"):
@@ -145,6 +145,9 @@ class MyClient(discord.Client):
                     outputcalc = str(calc_outputsingle)+" Centimeters per Pole and "+str(calc_outputdouble)+" Centimeters Total Combined"
                 except:
                     outputcalc = "An error occured while calculating!"
+            else:
+                outputcalc ="No Antenna like that here, Bruh. Read rab!help"
+            await message.channel.send(outputcalc)
 
 # Other Radio Astronomy Calculations
         elif message.content.startswith("rab!racalc"):
@@ -203,24 +206,25 @@ class MyClient(discord.Client):
             pass
 
     async def on_member_join(self, member):
-        channel = client.get_channel(657875763546161153)
-        channel1 =client.get_channel(657877136878862336)
-        rai=client.get_channel(657877179417493534)
+        logs = client.get_channel(657875763546161153)
+        introduction =client.get_channel(657877136878862336)
+        rules=client.get_channel(657877179417493534)
         v=client.get_channel(660829108250345472)
         r=client.get_channel(660914279729332224)
-        role = client.get_role("Unverified")
         embedd = discord.Embed(title="__**Member Joined**__", description="A Member joined the server.", colour=discord.Colour.green())
         embedd.set_thumbnail(url=member.avatar_url)
         embedd.set_footer(text="Radio Astronomy Bot | made by Kaffeedor#0487 | 2020")
-        embedd.add_field(name="Member", value="@" + str(member), inline=False)
+        embedd.add_field(name="Member", value=member.mention, inline=False)
         embedd.add_field(name="Member ID:", value=str(member.id), inline=False)
         a = member.created_at
         b = datetime.datetime.now()
         dhms=b-a
         embedd.add_field(name="**Account Creation:**", value=str(dhms) + " days, hours, minutes, seconds ago", inline=False)
-        await channel.send(embed=embedd)
-        member.add_roles(role)
-        await channel1.send("Hey " + member.mention + ", welcome to **Radio Astronomy and Space**:tada::hugging:! Please read the Rules in " + rai.mention + ", verify yourself in " + v.mention + " and give yourself roles in " + r.mention)
+        await logs.send(embed=embedd)
+        await introduction.send("Hey " + member.mention + ", welcome to **Radio Astronomy and Space**:tada::hugging:! Please read the Rules in " + rules.mention + ", verify yourself in " + v.mention + " and give yourself roles in " + r.mention)
+        guild = client.get_guild(member.guild.id)
+        role = discord.utils.get(guild.roles, name="Unverified")
+        await member.add_roles(role)
 
     async def on_member_remove(self, member):
         channel = client.get_channel(657875763546161153)
@@ -697,4 +701,4 @@ class MyClient(discord.Client):
 
 ##### END OF MODERATION / LOGGING #####
 client = MyClient()
-client.run("TOKEN")
+client.run("Token")
